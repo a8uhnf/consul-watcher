@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
-	"os"
 	"net/http"
+	"os"
+
 	"github.com/hashicorp/consul/api"
-"fmt"
+	"github.com/hashicorp/consul/watch"
 )
 
 func main() {
@@ -16,17 +18,36 @@ func main() {
 
 	log.Printf("Reading config file %s from %s", path, url)
 
-
-	rq, err := http.NewRequest("GET", fmt.Sprintf("http://%s/v1/kv/%s", url, path), nil)
+	rq, err := http.Get(fmt.Sprintf("http://%s/v1/kv/%s", url, path))
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(rq)
+	defer rq.Body.Close()
+	b, err := ioutil.ReadAll(rq.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(b))
+
+	// consul_test_api()
 }
 
-
+func watchConsulConfig() {
+	log.Println("------ Watch Config -----")
+	w := &watch.Plan{
+		Datacenter: "localhost:8500",
+	}
+	fmt.Println(w)
+}
 
 func consul_test_api() {
+	b, err := ioutil.ReadFile("./config.yaml")
+	if err != nil {
+		panic(err)
+	}
+
 	// Get a new client
 	client, err := api.NewClient(api.DefaultConfig())
 	if err != nil {
@@ -37,7 +58,7 @@ func consul_test_api() {
 	kv := client.KV()
 
 	// PUT a new KV pair
-	p := &api.KVPair{Key: "REDIS_MAXCLIENTS", Value: []byte("1000")}
+	p := &api.KVPair{Key: "REDIS_MAXCLIENTS", Value: b}
 	_, err = kv.Put(p, nil)
 	if err != nil {
 		panic(err)

@@ -3,7 +3,10 @@
 
 [[projects]]
   name = "github.com/hashicorp/consul"
-  packages = ["api"]
+  packages = [
+    "api",
+    "watch"
+  ]
   revision = "e716d1b5f8be252b3e53906c6d5632e0228f30fa"
   version = "v1.2.2"
 
@@ -40,6 +43,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c5fb008af8fec41a2ed70636b70e452be8067c037a6d830e8b5fe593710388af"
+  inputs-digest = "f90400b958b1629fc130d5dda8e0c1df176ec26d18abfcf88dcce1a3069cc36b"
   solver-name = "gps-cdcl"
   solver-version = 1
