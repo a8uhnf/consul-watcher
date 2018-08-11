@@ -35,7 +35,18 @@ func main() {
 	fmt.Println(string(b))
 
 	// consul_test_api()
-	watchConsulConfig()
+	// watchConsulConfig()
+	runServer()
+}
+
+func runServer() {
+	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Hello World!!!")
+	})
+
+	if err := http.ListenAndServe(":9090", nil); err != nil {
+		panic(err)
+	}
 }
 
 type HelloStruct struct {
@@ -51,7 +62,6 @@ func watchConsulConfig() {
 
 	var runtime_viper = viper.New()
 
-
 	runtime_viper.AddRemoteProvider("consul", "localhost:8500", "hello")
 	runtime_viper.SetConfigType("yaml")
 
@@ -61,7 +71,6 @@ func watchConsulConfig() {
 	}
 	s := &HelloStruct{}
 	runtime_viper.Unmarshal(&s)
-
 
 	stop := make(chan int)
 	go func() {
