@@ -6,9 +6,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/hashicorp/consul/api"
 	"github.com/hashicorp/consul/watch"
+	"github.com/spf13/viper"
+	_ "github.com/spf13/viper/remote"
 )
 
 func main() {
@@ -32,6 +35,11 @@ func main() {
 	fmt.Println(string(b))
 
 	// consul_test_api()
+	watchConsulConfig()
+}
+
+type HelloStruct struct {
+	Good string `json:"good"`
 }
 
 func watchConsulConfig() {
@@ -40,6 +48,38 @@ func watchConsulConfig() {
 		Datacenter: "localhost:8500",
 	}
 	fmt.Println(w)
+
+	var runtime_viper = viper.New()
+
+
+	runtime_viper.AddRemoteProvider("consul", "localhost:8500", "hello")
+	runtime_viper.SetConfigType("yaml")
+
+	err := runtime_viper.ReadRemoteConfig()
+	if err != nil {
+		panic(err)
+	}
+	s := &HelloStruct{}
+	runtime_viper.Unmarshal(&s)
+
+
+	stop := make(chan int)
+	go func() {
+		for {
+			time.Sleep(time.Second * 5) // delay after each request
+
+			// currently, only tested with etcd support
+			err := runtime_viper.WatchRemoteConfig()
+			if err != nil {
+				log.Printf("unable to read remote config: %v", err)
+				continue
+			}
+			fmt.Println(runtime_viper.Get("good"))
+			log.Println("Changed the remote config")
+		}
+	}()
+
+	<-stop
 }
 
 func consul_test_api() {
