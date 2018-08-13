@@ -8,6 +8,12 @@
   revision = "eb2c6b5be1b66bab83016e0b05f01b8d5496ffbd"
 
 [[projects]]
+  name = "github.com/cenkalti/backoff"
+  packages = ["."]
+  revision = "2ea60e5f094469f9e65adb9cd103795b73ae743e"
+  version = "v2.0.0"
+
+[[projects]]
   name = "github.com/coreos/etcd"
   packages = [
     "client",
@@ -83,6 +89,18 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/mitchellh/consulstructure"
+  packages = ["."]
+  revision = "b407c521973b7b902db2f09e65dbf5cb10f2dc5f"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/copystructure"
+  packages = ["."]
+  revision = "d23ffcb85de31694d6ccaa23ccb4a03e55c1303f"
+
+[[projects]]
+  branch = "master"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
   revision = "58046073cbffe2f25d425fe1331102f55cf719de"
@@ -92,6 +110,12 @@
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
   revision = "f15292f7a699fcc1a38a80977f80a046874ba8ac"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/reflectwalk"
+  packages = ["."]
+  revision = "63d60e9d0dbc60cf9164e6510889b0db6683d98c"
 
 [[projects]]
   name = "github.com/pelletier/go-toml"
@@ -169,6 +193,12 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/net"
+  packages = ["context"]
+  revision = "c39426892332e1bb5ec0a434a079bf82f5d30c54"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
   revision = "acbc56fc7007d2a01796d5bde54f39e3b3e95945"
@@ -195,6 +225,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2ee9ff605b1826b3ba349263125f397c03ee00e23b618380f6a52672138df496"
+  inputs-digest = "1a41a36f3cf4d93a0db5eb198cf7088a915177d7cbd91c6fcfe64c9db686ee9b"
   solver-name = "gps-cdcl"
   solver-version = 1
